@@ -1,0 +1,80 @@
+# FinSent Configuration
+project:
+  name: "FinSent"
+  version: "1.0.0"
+  description: "Financial News Sentiment Analysis Platform"
+
+# Data Configuration
+data:
+  raw_data_path: "data/raw"
+  processed_data_path: "data/processed"
+  datasets:
+    financial_phrasebank: "financial_phrasebank.csv"
+    news_headlines: "news_headlines.csv"
+  
+  # Data preprocessing
+  max_length: 512
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+
+# Model Configuration
+model:
+  base_model: "distilbert-base-uncased"
+  num_labels: 3  # negative, neutral, positive
+  learning_rate: 3e-5  # Slightly higher for GPU training
+  batch_size: 32      # GPU-optimized batch size
+  max_epochs: 5       # More epochs with GPU speed
+  early_stopping_patience: 3
+  
+  # Model paths
+  model_save_path: "models/"
+  checkpoint_path: "models/checkpoints/"
+
+# Training Configuration
+training:
+  device: "cuda"  # GPU detected! Using CUDA acceleration
+  gradient_accumulation_steps: 1
+  warmup_steps: 500
+  weight_decay: 0.01
+  logging_steps: 50   # More frequent logging with faster training
+  eval_steps: 200     # More frequent evaluation
+  save_steps: 500     # More frequent checkpoints
+
+# MLOps Configuration
+mlops:
+  experiment_tracking: "mlflow"
+  model_registry: "mlflow"
+  mlflow_uri: "sqlite:///mlflow.db"
+  artifact_location: "mlflow-artifacts"
+  
+  # Model monitoring
+  drift_threshold: 0.1
+  performance_threshold: 0.8
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+  workers: 1
+
+# Database Configuration
+database:
+  url: "sqlite:///finsent.db"
+  # For production: "postgresql://user:password@localhost:5432/finsent"
+
+# Monitoring Configuration
+monitoring:
+  metrics_port: 8001
+  log_level: "INFO"
+  
+# External APIs (for real-time data)
+external_apis:
+  news_api:
+    base_url: "https://newsapi.org/v2"
+    # api_key: "your_api_key_here"  # Set in .env file
+  
+  alpha_vantage:
+    base_url: "https://www.alphavantage.co/query"
+    # api_key: "your_api_key_here"  # Set in .env file

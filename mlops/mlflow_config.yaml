@@ -1,0 +1,57 @@
+# MLflow configuration for FinSent
+
+# Experiment configuration
+experiment_name: "FinSent_Financial_Sentiment"
+tracking_uri: "sqlite:///mlflow.db"
+artifact_location: "./mlflow-artifacts"
+
+# Model registry
+model_name: "FinancialSentimentModel"
+model_stage: "production"
+
+# Training tracking
+log_every_n_steps: 100
+save_every_n_steps: 500
+
+# Metrics to track
+metrics:
+  - accuracy
+  - precision
+  - recall
+  - f1_score
+  - loss
+  - learning_rate
+
+# Artifacts to log
+artifacts:
+  - model
+  - tokenizer
+  - preprocessor
+  - config
+  - training_logs
+  - confusion_matrix
+  - classification_report
+
+# Model versioning
+auto_log: true
+log_model_signatures: true
+log_input_examples: true
+
+# TODO: Configure MLflow tracking
+# You'll need to implement MLflow integration in your training code:
+# 
+# import mlflow
+# import mlflow.pytorch
+# 
+# mlflow.set_experiment(experiment_name)
+# with mlflow.start_run():
+#     # Log parameters
+#     mlflow.log_params(config)
+#     
+#     # Training loop
+#     for epoch in range(num_epochs):
+#         # Training code...
+#         mlflow.log_metrics({"loss": loss, "accuracy": accuracy}, step=epoch)
+#     
+#     # Log model
+#     mlflow.pytorch.log_model(model, "model")
