@@ -2,7 +2,6 @@
 # =========================
 
 # Python
-# -------
 __pycache__/
 *.py[cod]
 *$py.class
@@ -27,7 +26,6 @@ share/python-wheels/
 MANIFEST
 
 # Virtual Environments
-# --------------------
 venv/
 env/
 ENV/
@@ -38,7 +36,6 @@ conda-env/
 .conda/
 
 # IDEs and Editors
-# ----------------
 .vscode/settings.json
 .vscode/launch.json
 .vscode/extensions.json
@@ -51,32 +48,19 @@ conda-env/
 Thumbs.db
 
 # Jupyter Notebooks
-# ------------------
 .ipynb_checkpoints/
 */.ipynb_checkpoints/*
 *.ipynb_checkpoints
 jupyter_notebook_config.py
 
 # Data Files (Important!)
-# ------------------------
-data/raw/*.csv
-data/raw/*.json
-data/raw/*.xlsx
-data/raw/*.txt
-data/raw/*.zip
-data/processed/*.pkl
-data/processed/*.csv
-data/processed/*.json
-data/processed/*.parquet
+data/
 
 # Keep data structure but not actual data
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-!data/raw/sample_data.csv
-!data/raw/README.md
 
 # Model Files (Large Files)
-# --------------------------
 models/*.pt
 models/*.pth
 models/*.bin
@@ -94,7 +78,6 @@ models/cache/
 !models/README.md
 
 # MLflow and Experiment Tracking
-# -------------------------------
 mlruns/
 mlflow-artifacts/
 mlflow.db
@@ -107,7 +90,6 @@ tensorboard_logs/
 tb_logs/
 
 # Logs and Monitoring
-# -------------------
 logs/
 *.log
 *.out
@@ -123,7 +105,6 @@ coverage.xml
 .hypothesis/
 
 # Configuration and Secrets (Critical!)
-# --------------------------------------
 .env
 .env.local
 .env.*.local
@@ -137,13 +118,11 @@ api_keys.txt
 secrets.txt
 
 # Docker
-# ------
 .dockerignore
 docker-compose.override.yml
 .docker/
 
 # Database
-# --------
 *.db
 *.sqlite
 *.sqlite3
@@ -151,7 +130,6 @@ finsent.db
 mlflow.db
 
 # Temporary Files
-# ---------------
 *.tmp
 *.temp
 tmp/
@@ -159,7 +137,6 @@ temp/
 .tmp/
 
 # OS Generated Files
-# ------------------
 .DS_Store
 .DS_Store?
 ._*
@@ -169,12 +146,10 @@ ehthumbs.db
 Thumbs.db
 
 # GPU and CUDA
-# -------------
 *.cudnn
 *.cublas
 
 # Large Downloads
-# ---------------
 downloads/
 pretrained_models/
 huggingface_cache/
@@ -183,7 +158,6 @@ huggingface_cache/
 .transformers_cache/
 
 # API and Web Assets
-# ------------------
 static/uploads/
 media/uploads/
 node_modules/
@@ -192,14 +166,12 @@ yarn-debug.log*
 yarn-error.log*
 
 # Monitoring and Profiling
-# -------------------------
 .prof
 *.prof
 profile_output/
 profiling/
 
 # Backup Files
-# ------------
 *.bak
 *.backup
 *~
@@ -207,31 +179,22 @@ profiling/
 *.rej
 
 # Documentation Build
-# -------------------
 docs/_build/
 docs/build/
 site/
 
 # Package Files
-# -------------
 *.tar.gz
 *.zip
 *.rar
 *.7z
 
 # Cloud Provider Specific
-# ------------------------
 .aws/
 .gcp/
 .azure/
 
-# DVC (Data Version Control) - if you add it later
-# -------------------------------------------------
-.dvc/tmp
-.dvc/cache
-
 # Testing
-# -------
 .pytest_cache/
 .coverage
 htmlcov/
@@ -239,15 +202,8 @@ test_results/
 test_outputs/
 
 # Specific to FinSent
-# -------------------
-# Local config overrides
 config/local_config.yaml
 config/dev_config.yaml
-
-# Local data downloads
-data/external/
-financial_data/
-news_data/
 
 # Model experiments
 experiments/
@@ -273,4 +229,5 @@ test_script.py
 config/gpu_config.json
 config/gpu_config_fp16.json
 
+# Documentation (Unnecessary)
 docs/
