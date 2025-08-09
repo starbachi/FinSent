@@ -272,3 +272,5 @@ test_script.py
 # Generated files
 config/gpu_config.json
 config/gpu_config_fp16.json
+
+docs/
