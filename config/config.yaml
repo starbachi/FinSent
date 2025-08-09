@@ -6,21 +6,56 @@ project:
 
 # Data Configuration
 data:
-  raw_data_path: "data/raw"
-  processed_data_path: "data/processed"
+  raw_data_path: "../data/raw"
+  processed_data_path: "../data/processed"
   datasets:
     financial_phrasebank: "financial_phrasebank.csv"
     news_headlines: "news_headlines.csv"
+    
+  # Raw data files
+  raw_files:
+    file_50_agree: "../data/raw/Sentences_50Agree.txt"
+    file_66_agree: "../data/raw/Sentences_66Agree.txt"
+    file_75_agree: "../data/raw/Sentences_75Agree.txt"
+    file_100_agree: "../data/raw/Sentences_100Agree.txt"
+    combined_output: "../data/processed/financial_phrasebank_all_confidence.csv"
   
-  # Data preprocessing
+  # File encoding settings
+  encoding:
+    input_encoding: "latin1"
+    output_encoding: "utf-8"
+  
+  # Data preprocessing parameters
   max_length: 512
-  test_size: 0.2
-  validation_size: 0.1
+  test_size: 0.15
+  validation_size: 0.15
+  train_size: 0.70
   random_state: 42
+  
+  # Text filtering parameters
+  min_words: 10
+  max_words: 100
+  
+  # Text cleaning parameters
+  grammar_correction:
+    enabled: true
+    max_length_for_grammar: 300
+    batch_size: 100
+    language: "en-US"
+  
+  # Tokenization parameters
+  tokenization:
+    batch_size: 64
+    max_sequence_length: 512
+    padding: "max_length"
+    truncation: true
+    add_special_tokens: true
 
 # Model Configuration
 model:
   base_model: "distilbert-base-uncased"
+  finbert_model: "ProsusAI/finbert"
+  spacy_model: "en_core_web_trf"
   num_labels: 3  # negative, neutral, positive
   learning_rate: 3e-5  # Slightly higher for GPU training
   batch_size: 32      # GPU-optimized batch size
@@ -28,8 +63,8 @@ model:
   early_stopping_patience: 3
   
   # Model paths
-  model_save_path: "models/"
-  checkpoint_path: "models/checkpoints/"
+  model_save_path: "../models/"
+  checkpoint_path: "../models/checkpoints/"
 
 # Training Configuration
 training:
@@ -41,6 +76,99 @@ training:
   eval_steps: 200     # More frequent evaluation
   save_steps: 500     # More frequent checkpoints
 
+# Text Processing Configuration
+text_processing:
+  # Character sets and symbols to preserve
+  financial_symbols:
+    - "$"
+    - "€" 
+    - "£"
+    - "¥"
+    - "₹"
+    - "₽"
+    - "₩"
+    - "₪"
+    - "₡"
+    - "₨"
+    - "₦"
+    - "₵"
+    - "₴"
+    - "₸"
+    - "₼"
+    - "%"
+    - "+"
+    - "-"
+    - "="
+    - "("
+    - ")"
+    - "."
+    - ","
+    - ";"
+    - ":"
+    - "\""
+    - "'"
+    - "!"
+    - "?"
+    - "&"
+  
+  # Encoding artifacts to remove
+  encoding_artifacts:
+    - "�"
+    - "\ufffd"
+    - "\x00"
+    - "\x01"
+    - "\x02"
+    - "\x03"
+    - "\x04"
+    - "\x05"
+    - "\x06"
+    - "\x07"
+    - "\x08"
+    - "\x0b"
+    - "\x0c"
+    - "\x0e"
+    - "\x0f"
+    - "\x10"
+    - "\x11"
+    - "\x12"
+    - "\x13"
+    - "\x14"
+    - "\x15"
+    - "\x16"
+    - "\x17"
+    - "\x18"
+    - "\x19"
+    - "\x1a"
+    - "\x1b"
+    - "\x1c"
+    - "\x1d"
+    - "\x1e"
+    - "\x1f"
+    - "\x7f"
+    - "\\x"
+    - "\\u"
+    - "\\n"
+    - "\\t"
+    - "\\r"
+    - "\ufeff"
+    - "\ufffe"
+  
+  # Financial abbreviations mapping
+  financial_abbreviations:
+    "mn": "million"
+    "bn": "billion" 
+    "tn": "trillion"
+    "k": "thousand"
+    "M": "million"
+    "B": "billion"
+    "pct": "percent"
+    "q1": "first quarter"
+    "q2": "second quarter"
+    "q3": "third quarter"
+    "q4": "fourth quarter"
+    "yoy": "year over year"
+    "qoq": "quarter over quarter"
+  
 # MLOps Configuration
 mlops:
   experiment_tracking: "mlflow"
@@ -78,3 +206,78 @@ external_apis:
   alpha_vantage:
     base_url: "https://www.alphavantage.co/query"
     # api_key: "your_api_key_here"  # Set in .env file
+
+# Visualization Configuration
+visualization:
+  # Plot settings
+  style: "seaborn-v0_8"
+  backend: "inline"
+  
+  # Figure sizes
+  figure_sizes:
+    default: [10, 6]
+    pie_chart: [7, 7]
+    text_length: [15, 10]
+    word_frequency: [18, 6]
+    violin_plot: [8, 6]
+    histogram_dual: [15, 10]
+  
+  # Colors
+  colors:
+    sentiment_colors: ["#FFC154", "#47B39C", "#EC6B56"]
+    chart_colors: ["skyblue", "lightgreen", "lightcoral", "gold"]
+    histogram_colors: ["skyblue", "lightgreen"]
+  
+  # Chart settings
+  charts:
+    pie_chart:
+      autopct: "%1.1f%%"
+      startangle: 90
+      explode: [0.01, 0.01, 0.01]
+    histogram:
+      bins: 30
+      alpha: 0.7
+    word_frequency:
+      top_words_count: 15
+      rotation: 45
+      bar_color: "skyblue"
+    violin_plot:
+      palette: "pastel"
+
+# Validation Configuration  
+validation:
+  # Data quality checks
+  check_data_leakage: true
+  check_label_distribution: true
+  check_edge_cases: true
+  
+  # Validation output settings
+  max_overlap_examples: 5
+  
+  # Thresholds
+  overlap_threshold: 0  # Maximum allowed overlap between splits
+  min_samples_per_class: 10  # Minimum samples required per class in each split
+
+# Data Export Configuration
+data_export:
+  # Save settings
+  save_directory: "../data/processed"
+  
+  # File formats
+  output_format: "csv"
+  sample_data_format: "json"
+  
+  # Artifact settings
+  save_tokenizer: true
+  save_label_encoder: true
+  save_metadata: true
+  save_manifest: true
+  save_samples: true
+  
+  # Metadata settings
+  metadata:
+    processing_date_format: "ISO"
+    include_text_statistics: true
+    include_validation_results: true
+    version: "1.0"
+    description: "Financial PhraseBank processed dataset for sentiment analysis"
